@@ -1,0 +1,11 @@
+Package: VwGHat
+Type: Package
+Title: Mining Austrian administrative court rulings 
+Version: 0.8
+Author: Martin Kober and Georg Zajko
+Maintainer: Martin Kober <martin.kober@wu-wien.ac.at>
+Description: Performs data extraction and mining of Austrian supreme administrative court rulings.
+License: GPL-2
+Depends: XML, DBI
+Recommends: RSQLite
+

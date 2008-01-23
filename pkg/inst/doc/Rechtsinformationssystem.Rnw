@@ -1,0 +1,132 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{a4wide}
+\setlength{\parskip}{0.5ex plus0.1ex minus0.1ex}
+\setlength{\parindent}{0em}
+
+\usepackage[round,longnamesfirst]{natbib}
+\usepackage{hyperref}
+
+%%% for tabulars
+\usepackage{rotating}
+\usepackage{multirow}
+
+\newcommand{\strong}[1]{{\normalfont\fontseries{b}\selectfont #1}}
+\newcommand{\class}[1]{\mbox{\textsf{#1}}}
+\newcommand{\func}[1]{\mbox{\texttt{#1()}}}
+\newcommand{\code}[1]{\mbox{\texttt{#1}}}
+\newcommand{\pkg}[1]{\strong{#1}}
+\newcommand{\samp}[1]{`\mbox{\texttt{#1}}'}
+\newcommand{\proglang}[1]{\textsf{#1}}
+\newcommand{\set}[1]{\mathcal{#1}}
+
+\usepackage{Sweave}
+%% \VignetteIndexEntry{Rechtsinformationssystem Vignette}
+
+<<echo=FALSE>>=
+options(prompt="R> ")
+@
+
+\begin{document}
+
+\title{Introduction to usage of VwGHat - the package 
+	for mining VwGH jurisdiction.}
+\author{Martin Kober and Georg Zajko}
+\maketitle
+\sloppy
+
+\section{Introduction}
+
+The Rechtsinformationssystem of the Austrian Federal Chancellary (\url{http://ris.bka.gv.at}) provides 
+an online archive of all Austrian laws and supreme court jurisdiction. 
+The purpose of this package is to make the rulings of the Austrian supreme
+administrative court usable for datamining in R and provide some basic mining 
+functions. 
+
+\section{Usage}
+\subsection{Creation of the Database}
+
+The first step in the mining process is to create a database of the rulings. 
+
+The recommended and tested database for this package is SQLite, as it is available on most systems and 
+requires little to none configuration. However, any database that supports 
+basic functions of the DBI package should work. The only thing that the user needs to do is open a connection to the database of choice, everything else is handled by the various package functions.
+
+To open a connection to an SQLite database (or create a new one if it does not exist), simply type:
+
+<<eval=FALSE>>=
+library("RSQLite")
+con <- dbConnect(dbDriver("SQLite"), dbname="risdb")
+@
+
+The next step is to fill the database:
+<<eval=FALSE>>=
+build_RIS_db(con)
+@
+Beware that the database contains approximately 70.000 rulings so this will take several hours. It is possible to download only a subset of the rulings using the \func{to=} and \func{from=} arguments.
+
+
+\subsection{Mining the database}
+The package provides several functions for extracting interesting information from the database. They generally require only the database connection object as a parameter and create a new table in the database with the mining results. 
+
+The following functions are defined:
+
+<<eval=FALSE>>=
+compute_result(con)
+compute_senate_size(con)
+compute_senate_number(con)
+compute_duration_of_proc(con)
+compute_affected_norms(con)
+@
+
+The documentation of the respective functions provide further detail on how (and in which table) the results are stored in the database.
+
+\subsection{Extracting the results}
+The easiest way to export the data into an R dataframe is to export a single table:
+<<eval=FALSE>>=
+df <- dbReadTable(con, "<table_name>") # substitute table name
+@
+
+SQL has to be used for more complex queries. The function \func{dbGetQuery} executes SQL and returns the result as a dataframe.
+
+\section{Defining new mining functions}
+The package provides an easy way to write new mining functions with minimal exposure to database specifics through the function \func{compute\_from\_db}:
+
+<<eval=FALSE>>=
+compute_from_db(con, func, table_name, fields_in, fields_out, field_types="TEXT",
+		table_setup=setup_foreign_table, include_foreign_key=TRUE, limit=0)
+@
+
+All included mining functions use this function; \func{compute\_senate\_size} for example, is defined as follows:
+
+<<eval=FALSE>>=
+compute_senate_size <- function(con, limit=0) 
+	compute_from_db(con, senate_size, table_name="senate_size", 
+		fields_in="Betreff", fields_out="size", field_types="INTEGER", limit=limit)
+@
+
+Here, \func{senate\_size} is the actual worker function that determines senate size. After creating the table "senate\_size", \func{compute\_from\_db} calls the function with a single-row dataframe with the required fields from the first record in the db, "Betreff" in this case (and a record id). \func{senate\_size} returns a dataframe (with one row, but more than one row is possible) with the indicated fields, "size" in this case. \func{compute\_from\_db} then writes this data to the db and calls \func{senate\_size} with the next row in the db.
+
+
+\section{Database structure}
+The main table "Rechtsinformationssystem" contains all the information from RIS. Column names are according to the sections in RIS:
+
+\begin{itemize}
+  \item  Norm
+  \item  Gerichtstyp
+  \item  Geschaeftszahl
+  \item  Entscheidungsdatum
+  \item  Veroeffentlichungsdatum
+  \item  Index
+  \item  Spruch
+  \item  Dokumentnummer
+  \item  Schlagworte
+  \item  Sammlungsnummer
+  \item  Beachte
+  \item  Gerichtsentscheidung
+  \item  RisID
+  \item  SP\_Nr
+\end{itemize}
+
+\end{document}
+
