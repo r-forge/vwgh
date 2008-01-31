@@ -13,11 +13,12 @@ function(con, func, table_name, fields_in, fields_out, field_types="TEXT",
 	i <- 1
 	if (include_foreign_key)
 		fields_out = c("SP_Nr", fields_out)
+	cat("\n")
 	while ( i < len ) {
 		#print(paste(i,len))
 		start <- lseq[i]+1
 		stop <- lseq[i+1]
-		cat("Working through from ",start," to ",stop,"...\n")
+		cat(sprintf("\rWorking through from %d to %d... (%.0f%%)", start, stop, start/linecount*100) )
 		fields = paste(c("SP_Nr", fields_in), collapse=", ")
 		rs <- dbGetQuery(con,paste("select ", fields, " from Rechtsinformationssystem where SP_Nr>=",start," and SP_Nr<=",stop,";"))
 		
@@ -44,9 +45,9 @@ function(con, func, table_name, fields_in, fields_out, field_types="TEXT",
 		#print(result)
 		if (length(result[[1]]) > 0)
 			dbWriteTable(con,table_name, result, append=TRUE, row.names=FALSE)
-		#cat("\r")
 		i <- i+1
-		#cat(i,":",len,"\n")
+
 	}
+	cat(sprintf("\rDone processing %d entries (100%%).               \n", linecount))
 }
 
