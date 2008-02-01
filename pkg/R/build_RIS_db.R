@@ -2,8 +2,10 @@
 function(con, from=1, to=80000, new_table=TRUE) 
 {
 	if (new_table) {
-		rs <- dbGetQuery(con,"drop table if exists Rechtsinformationssystem;")
-		rs <- dbGetQuery(con, "CREATE TABLE `Rechtsinformationssystem` (`Norm` text not null ,`Gerichtstyp` text not null ,`Geschaeftszahl` char(10) not null,`Entscheidungsdatum` date not null,`Veroeffentlichungsdatum` date not null,`Index` text,`Betreff` text,`Spruch` text,`Begruendung` text,`Dokumentnummer` text,`Schlagworte` text,`Sammlungsnummer` text,`Beachte` text,`Gerichtsentscheidung` text, `RisID` int(6), `SP_Nr` integer not null primary key autoincrement); ")
+		dbGetQuery(con,"drop table if exists Rechtsinformationssystem;")
+		dbGetQuery(con, "CREATE TABLE `Rechtsinformationssystem` (`Norm` text not null ,`Gerichtstyp` text not null ,`Geschaeftszahl` char(10) not null,`Entscheidungsdatum` date not null,`Veroeffentlichungsdatum` date not null,`Index` text,`Betreff` text,`Spruch` text,`Begruendung` text,`Dokumentnummer` text,`Schlagworte` text,`Sammlungsnummer` text,`Beachte` text,`Gerichtsentscheidung` text, `RisID` int(6), `SP_Nr` integer not null primary key autoincrement); ")
+		dbGetQuery(con, "CREATE INDEX i_risid ON Rechstinformationssystem (RisID)")
+		dbGetQuery(con, "CREATE INDEX i_gfz ON Rechstinformationssystem (Geschaeftszahl)")
 	}
 	
 	maxnum =  dbGetQuery(con, "select max(SP_Nr) from Rechtsinformationssystem")[1,1]

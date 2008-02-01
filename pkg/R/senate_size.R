@@ -1,7 +1,7 @@
 `senate_size` <-
 function(data) {
 	txt = data[["Betreff"]]
-	pos <- regexpr(paste("^.{20,45} (Vorsitzende|Vorsitzenden)[[:space:]]*"),
+	pos <- regexpr("(Vorsitzende|Vorsitzenden|präsident)",
 			## es gibt mittlerweile auch eine Senatspraesidentin
 			txt)
 	if (pos == -1) {
@@ -13,7 +13,7 @@ function(data) {
 	}
 	else {
 		txt <- substring(txt, pos + attr(pos, "match.length"))
-		txt <- sub("im[[:space:]]+Beisein.*", "", txt)
+		txt <- sub("im.[[:space:]]*Beisein.*", "", txt)
 		txt <- sub("[[:space:]]*als[[:space:]]+Richter.*", "", txt)
 	}
 	x = gregexpr("(Dr|Mag)[. ]", txt)[[1]]

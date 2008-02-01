@@ -3,7 +3,7 @@ function(con, func, table_name, fields_in, fields_out, field_types="TEXT",
 		table_setup=setup_foreign_table, include_foreign_key=TRUE, limit=0) {
 	table_setup(con, table_name, fields_out, field_types, include_foreign_key)
 	
-	chunk_size=100 ## Number of entries fetched per iteration
+	chunk_size=500 ## Number of entries fetched per iteration
 	if (limit == 0) 
 		linecount<-dbGetQuery(con,"select max(SP_Nr) from Rechtsinformationssystem;")[1,1]
 	else linecount = limit	
@@ -41,13 +41,20 @@ function(con, func, table_name, fields_in, fields_out, field_types="TEXT",
 			})
 			j <- j+1
 		}
-		result = data.frame(result)
+		
 		#print(result)
-		if (length(result[[1]]) > 0)
+		if (length(result[[1]]) > 0) {
+			result = data.frame(result)
 			dbWriteTable(con,table_name, result, append=TRUE, row.names=FALSE)
+		}
 		i <- i+1
 
 	}
+	
+	if (include_foreign_key && identical(table_setup, setup_foreign_table) ) {
+		dbGetQuery(con, paste("CREATE INDEX i_", table_name, " ON ", table_name, " (SP_Nr)", collapse="", sep=""))
+	}
+	
 	cat(sprintf("\rDone processing %d entries (100%%).               \n", linecount))
 }
 
