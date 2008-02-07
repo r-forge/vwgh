@@ -9,11 +9,9 @@ function(data)
 
 		## Zurueckweisung
 		pat1 <- "zur.ckgewiesen"
-				
 		
 		## Abweisung 
-		pat2 <- "abgewiesen|abewiesen|abgegewiesen|nicht (statt|stattgegeben|folge)|abgelehnt"
-		
+		pat2 <- "abgewiesen|abewiesen|abgegewiesen|nicht folge|abgelehnt"
 
 		pat2X <- "n i c h t   s t a t t g e g e b e n|n i c h t s t a t t g e g e b e n"
 
@@ -64,7 +62,27 @@ function(data)
 			}
 		}
 
+                if (sum(sp) == 2 && ( sp[5] == 1 || sp[6] == 1 ))
+                  {
+                    if (sp[5] == 1)
+                      {
+                        sp[5] <- 0
+                      }
+                    else
+                      {
+                        if (sp[6] == 1)
+                          {
+                            sp[6] <- 0
+                          }
+                      }
+                 }
 
+                 if (sum(sp) >= 3 && ( sp[5] == 1 || sp[6] == 1 ))
+                   {
+                     sp[5] <- 0
+                     sp[6] <- 0
+                   }
+                
 		#cat(res,"\n")
 		if (sum(sp) == 1 )  
 		{
@@ -107,10 +125,11 @@ function(data)
 							}
 						}
 					}
-				}
+                                }
 				else 
 				{
-					res <- sp[1]*10^5+sp[2]*2*10^4+sp[3]*3*10^3+sp[4]*4*10^2+sp[5]*5*10^1+sp[6]*6*10^0
+                                  if (sp[3] == 1 ) res <- 9
+                                  else res <- sp[1]*10^5+sp[2]*2*10^4+sp[3]*3*10^3+sp[4]*4*10^2+sp[5]*5*10^1+sp[6]*6*10^0
 				}
 			}
 
