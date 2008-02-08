@@ -5,15 +5,23 @@ function(data)
 		#x <- data
 		x <- tolower(x)
 		sp <- c(0,0,0,0,0,0)
+		mx1 <- 0
+		mx2 <- 0
+		mx3 <- 0
+
+		## Ignoring `Mehrbegehren`
+		x <- unlist(strsplit(x,"mehrbegehren"))[1]
+
 		## 6 Grundkategorien
 
 		## Zurueckweisung
 		pat1 <- "zur.ckgewiesen"
 		
 		## Abweisung 
-		pat2 <- "abgewiesen|abewiesen|abgegewiesen|nicht folge|abgelehnt"
+		pat2 <- "abgewiesen|abewiesen|abgegewiesen|abgelehnt"
 
 		#pat2X <- "n i c h t   s t a t t g e g e b e n|n i c h t s t a t t g e g e b e n"
+
 
 		## Aufhebung
 		pat3="aufgehoben|erteilt|folge gegeben|bewilligt|rechtswidrig|berichtigt|geb.hrt dem Beschwerdef.hrer|erlassen|angeordnet"
@@ -28,7 +36,19 @@ function(data)
 
 		## Vorabentscheidung
 		pat6="vorabentscheidung"
+
+		## specific definitons	
+
+		## 2 -> 7
+		pat2X1 <- ".brigen"
+
+		## 2/3 -> 5
+		pat2X2 <- "antr.g"
 		
+		##  3  -> 9
+		pat3X1 <- "sowie|spruchpunkt"
+
+
 		## ungebr.ndet
 		## best.tigt
 		## antrag nicht
@@ -50,10 +70,10 @@ function(data)
 		if (length(grep(pat6,x)) >= 1 ) sp[6] <- 1
 		
 		## Corrections
-		#if (length(grep(pat2X,x)) >= 1 ) 
-		#{
-		#	sp[2] <- 1
-		#}
+		if (length(grep(pat2X1,x)) >= 1 ) mx1 <- 1
+		if (length(grep(pat2X2,x)) >= 1 ) mx2 <- 1
+		if (length(grep(pat3X1,x)) >= 1 ) mx3 <- 1
+			
 		#else
 		#{	
 		#	if (length(grep(pat3X,x)) >= 1 )
@@ -86,7 +106,32 @@ function(data)
 		#cat(res,"\n")
 		if (sum(sp) == 1 )  
 		{
-			res <- grep("1",sp)
+			if ( mx1 >= 1 ) 
+			{
+				if ( sp[2] == 1 ) 
+				{
+					res <- 7
+				}
+				else res <- grep("1",sp)
+			}
+			else
+			{	
+				if ( mx2 >= 1 ) 
+				{
+					if ( sp[2] == 1 ) res <- 5
+					else if ( sp[3] == 1 ) res <- 5
+					else res <- grep("1",sp)
+				}
+				else 
+				{
+					if (mx3 >= 1 )
+					{
+						if ( sp[3] == 1 ) res <- 9
+						else res <- grep("1",sp)
+					}
+					else	res <- grep("1",sp)						
+				}
+			}
 		}
 		else
 		{
@@ -99,7 +144,7 @@ function(data)
 				sp2 <- sp[1]*10^5+sp[2]*10^4+sp[3]*10^3+sp[4]*10^2+sp[5]*10^1+sp[6]*10^0
 				if (sum(sp) == 2 )
 				{
-					## Mixture:
+					## Mixture about:
 					## teilweise Abweisung-Zurueckweisung
 					if ( sp2 == 110000 ) 
 					{
