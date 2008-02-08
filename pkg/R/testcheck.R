@@ -32,7 +32,7 @@ testcheck <- function(x,y)
 			{
 				xx <- xx + 1
 				xx_sp <- c(xx_sp,c_sp_nr)
-				cat("\n",xx_sp,"\n")
+				#cat("\n",xx_sp,"\n")
 			}
 			else 
 			{

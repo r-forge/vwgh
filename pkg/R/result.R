@@ -13,18 +13,18 @@ function(data)
 		## Abweisung 
 		pat2 <- "abgewiesen|abewiesen|abgegewiesen|nicht folge|abgelehnt"
 
-		pat2X <- "n i c h t   s t a t t g e g e b e n|n i c h t s t a t t g e g e b e n"
+		#pat2X <- "n i c h t   s t a t t g e g e b e n|n i c h t s t a t t g e g e b e n"
 
 		## Aufhebung
 		pat3="aufgehoben|erteilt|folge gegeben|bewilligt|rechtswidrig|berichtigt|geb.hrt dem Beschwerdef.hrer|erlassen|angeordnet"
 
-		pat3X <- "stattgegeben"
+		#pat3X <- "stattgegeben"
 
 		## Einstellung
 		pat4 <- "eingestellt"
 
 		## Beschluss
-		pat5="beschlu."
+		pat5="beschlu.|stattgegeben"
 
 		## Vorabentscheidung
 		pat6="vorabentscheidung"
@@ -50,17 +50,17 @@ function(data)
 		if (length(grep(pat6,x)) >= 1 ) sp[6] <- 1
 		
 		## Corrections
-		if (length(grep(pat2X,x)) >= 1 ) 
-		{
-			sp[2] <- 1
-		}
-		else
-		{	
-			if (length(grep(pat3X,x)) >= 1 )
-			{
-				sp[3] <- 1
-			}
-		}
+		#if (length(grep(pat2X,x)) >= 1 ) 
+		#{
+		#	sp[2] <- 1
+		#}
+		#else
+		#{	
+		#	if (length(grep(pat3X,x)) >= 1 )
+		#	{
+		#		sp[3] <- 1
+		#	}
+		#}
 
                 if (sum(sp) == 2 && ( sp[5] == 1 || sp[6] == 1 ))
                   {
