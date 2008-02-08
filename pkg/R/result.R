@@ -10,7 +10,7 @@ function(data)
 		mx3 <- 0
 
 		## Ignoring `Mehrbegehren`
-		x <- unlist(strsplit(x,"mehrbegehren"))[1]
+		x <- unlist(strsplit(x,"mehrbegehren|(kosten)ersatzbegehren|kosten(mehr)begehren"))[1]
 
 		## 6 Grundkategorien
 
@@ -24,7 +24,7 @@ function(data)
 
 
 		## Aufhebung
-		pat3="aufgehoben|erteilt|folge gegeben|bewilligt|rechtswidrig|berichtigt|geb.hrt dem Beschwerdef.hrer|erlassen|angeordnet"
+		pat3="aufgehoben|erteilt|folge gegeben|rechtswidrig|berichtigt|geb.hrt dem Beschwerdef.hrer|erlassen|angeordnet"
 
 		#pat3X <- "stattgegeben"
 
@@ -32,7 +32,7 @@ function(data)
 		pat4 <- "eingestellt"
 
 		## Beschluss
-		pat5="beschlu.|stattgegeben"
+		pat5="beschlu.|stattgegeben|bewilligt"
 
 		## Vorabentscheidung
 		pat6="vorabentscheidung"
@@ -173,8 +173,9 @@ function(data)
                                 }
 				else 
 				{
-                                  if (sp[3] == 1 ) res <- 9
-                                  else res <- sp[1]*10^5+sp[2]*2*10^4+sp[3]*3*10^3+sp[4]*4*10^2+sp[5]*5*10^1+sp[6]*6*10^0
+                                  #if (sp[3] == 1 ) res <- 9
+                                  #else 
+				  res <- sp[1]*10^5+sp[2]*2*10^4+sp[3]*3*10^3+sp[4]*4*10^2+sp[5]*5*10^1+sp[6]*6*10^0
 				}
 			}
 
