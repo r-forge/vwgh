@@ -3,7 +3,7 @@ function(con, func, table_name, fields_in, fields_out, field_types="TEXT",
 		table_setup=setup_foreign_table, include_foreign_key=TRUE, limit=0) {
 	table_setup(con, table_name, fields_out, field_types, include_foreign_key)
 	
-	chunk_size=500 ## Number of entries fetched per iteration
+	chunk_size=1000 ## Number of entries fetched per iteration
 	if (limit == 0) 
 		linecount<-dbGetQuery(con,"select max(SP_Nr) from Rechtsinformationssystem;")[1,1]
 	else linecount = limit	

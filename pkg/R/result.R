@@ -8,10 +8,32 @@ function(data)
 		mx1 <- 0
 		mx2 <- 0
 		mx3 <- 0
-
+                mx4 <- 0
+                
 		## Ignoring `Mehrbegehren`
-		x <- unlist(strsplit(x,"mehrbegehren|(kosten)ersatzbegehren|kosten(mehr)begehren"))[1]
+                patig1 <- "mehrbegehren|(kosten)ersatzbegehren|begehren|ersatzantrag"
+		x <- unlist(strsplit(x,patig1))[1]
 
+                ## Ignoring Wiedereinsetzung
+                patig2 <- "antrag auf wiedereinsetzung"
+                if (length(grep(patig2,x)) >= 1 )
+                  {
+                    wg   <- unlist(strsplit(x,patig2))[2]
+                    full <- unlist(strsplit(x,patig2))
+                    wg2  <- unlist(strsplit(wg, "\\.|\\;"))
+                    x <- paste(full[1],wg2[2:length(wg2)],sep=" ")
+                  }
+
+                ## Ignoring Beschluss
+                patig2 <- "beschluss"
+                if (length(grep(patig2,x)) >= 1 )
+                  {
+                    wg   <- unlist(strsplit(x,patig2))[2]
+                    full <- unlist(strsplit(x,patig2))
+                    wg2  <- unlist(strsplit(wg, "\\.|\\;"))
+                    x <- paste(full[1],wg2[2:length(wg2)],sep=" ")
+                  }
+                  
 		## 6 Grundkategorien
 
 		## Zurueckweisung
@@ -22,9 +44,8 @@ function(data)
 
 		#pat2X <- "n i c h t   s t a t t g e g e b e n|n i c h t s t a t t g e g e b e n"
 
-
 		## Aufhebung
-		pat3="aufgehoben|erteilt|folge gegeben|rechtswidrig|berichtigt|geb.hrt dem Beschwerdef.hrer|erlassen|angeordnet"
+		pat3="aufgehoben|erteilt|folge gegeben|rechtswidrig|berichtigt|geb.hrt dem Beschwerdef.hrer|erlassen|angeordnet|zur.ckverwiesen"
 
 		#pat3X <- "stattgegeben"
 
@@ -35,7 +56,7 @@ function(data)
 		pat5="beschlu.|stattgegeben|bewilligt"
 
 		## Vorabentscheidung
-		pat6="vorabentscheidung"
+		pat6="vorabentscheidung|gerichtshof der europ.ischen gemeinschaften"
 
 		## specific definitons	
 
@@ -43,12 +64,15 @@ function(data)
 		pat2X1 <- ".brigen"
 
 		## 2/3 -> 5
-		pat2X2 <- "antr.g"
-		
-		##  3  -> 9
-		pat3X1 <- "sowie|spruchpunkt"
+                pat2X2 <- "antr.g"
+			
 
+                
+                ## 6 -> 5
+                pat6X1 <- "vorabentscheidungsverfahren|angerufen worden|rechtssachen"
+                pat6X2 <- "vorgelegt"
 
+                
 		## ungebr.ndet
 		## best.tigt
 		## antrag nicht
@@ -62,6 +86,8 @@ function(data)
 		## bescheid dahingehend abge.ndert	
 
 
+                ## Simple Textmining
+                
 		if (length(grep(pat1,x)) >= 1 ) sp[1] <- 1
 		if (length(grep(pat2,x)) >= 1 ) sp[2] <- 1
 		if (length(grep(pat3,x)) >= 1 ) sp[3] <- 1
@@ -69,39 +95,21 @@ function(data)
 		if (length(grep(pat5,x)) >= 1 ) sp[5] <- 1
 		if (length(grep(pat6,x)) >= 1 ) sp[6] <- 1
 		
-		## Corrections
+		## Corrections 
 		if (length(grep(pat2X1,x)) >= 1 ) mx1 <- 1
-		if (length(grep(pat2X2,x)) >= 1 ) mx2 <- 1
-		if (length(grep(pat3X1,x)) >= 1 ) mx3 <- 1
-			
-		#else
-		#{	
-		#	if (length(grep(pat3X,x)) >= 1 )
-		#	{
-		#		sp[3] <- 1
-		#	}
-		#}
+		#if (length(grep(pat2X2,x)) >= 1 ) mx2 <- 1
+                if (length(grep(pat6X1,x)) >= 1 ) mx3 <- 1
+                if (length(grep(pat6X2,x)) >= 1 ) mx4 <- 1
+                
 
-                if (sum(sp) == 2 && ( sp[5] == 1 || sp[6] == 1 ))
+                ## Evaluation
+                
+                if ( sp[5] == 1 && sp[6] == 1 )
                   {
-                    if (sp[5] == 1)
-                      {
-                        sp[5] <- 0
-                      }
-                    else
-                      {
-                        if (sp[6] == 1)
-                          {
-                            sp[6] <- 0
-                          }
-                      }
+                    if ( mx4 == 1) sp <- c(0,0,0,0,0,1)
+                    else sp[6] <- 1
                  }
 
-                 if (sum(sp) >= 3 && ( sp[5] == 1 || sp[6] == 1 ))
-                   {
-                     sp[5] <- 0
-                     sp[6] <- 0
-                   }
                 
 		#cat(res,"\n")
 		if (sum(sp) == 1 )  
@@ -126,7 +134,7 @@ function(data)
 				{
 					if (mx3 >= 1 )
 					{
-						if ( sp[3] == 1 ) res <- 9
+						if ( sp[6] == 1 ) res <- 5
 						else res <- grep("1",sp)
 					}
 					else	res <- grep("1",sp)						
@@ -173,12 +181,25 @@ function(data)
                                 }
 				else 
 				{
-                                  #if (sp[3] == 1 ) res <- 9
-                                  #else 
+                                  if (sp[3] == 1 ) res <- 9
+                                  else 
 				  res <- sp[1]*10^5+sp[2]*2*10^4+sp[3]*3*10^3+sp[4]*4*10^2+sp[5]*5*10^1+sp[6]*6*10^0
 				}
 			}
 
+		}
+
+
+        ### Final Manipulation
+        if ( res > 10 ) 
+		{ 
+			if ( res == 100400 ) res <-1
+			if ( res == 100050 ) res <-1
+			if ( res == 120050 ) res <-2
+			if ( res ==  20050 ) res <-2
+			if ( res ==  20450 ) res <-5
+			if ( res ==    450 ) res <-4
+			if ( res ==     56 ) res <-5
 		}
 	list(Result=res)
 }
