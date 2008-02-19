@@ -1,9 +1,10 @@
 `duration_of_proc` <-
 function(data) {
-	correction_factor = 0 #-100 + 6*7 # ???
+	correction_factor = - 42 
 
 	end = as.Date(as.character(data[["Entscheidungsdatum"]]), "%Y%m%d")
 	txt = data[["Betreff"]]
+	Encoding(txt) = "UTF-8"
 	
 	month_list = c("Jänner"=1, Januar=1, Feber=2, Februar=2, "März"=3, April=4,
 		Mai=5, Juni=6, Juli=7, August=8, September=9, Oktober=10, November=11, Dezember=12)
@@ -27,7 +28,7 @@ function(data) {
 		dates[i] = as.Date(paste(dd, collapse="-"), "%Y-%m-%d")
 	}
 	class(dates) = "Date"
-	start = dates[1]
+	start = max(dates)
 	dur = end - start
 	
 	return(list(duration_of_proc=(as.integer(dur) + correction_factor), 

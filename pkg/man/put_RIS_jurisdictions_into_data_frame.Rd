@@ -23,7 +23,7 @@ to a dataframe}
 
 \references{ Austrian law information system \url{http://www.ris.bka.gv.at/} }
 
-\author{ Martin Kober <martin.kober@wu-wien.ac.at>, Georg M. Zajko <georg.zajko@wu-wien.ac.at> }
+\author{ Kurt Hornik <kurt.hornik@wu-wien.ac.at>, Martin Kober <martin.kober@wu-wien.ac.at>, Georg M. Zajko <georg.zajko@wu-wien.ac.at> }
 
 \examples{
 \dontrun{

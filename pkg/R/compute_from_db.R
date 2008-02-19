@@ -22,6 +22,8 @@ function(con, func, table_name, fields_in, fields_out, field_types="TEXT",
 		fields = paste(c("SP_Nr", fields_in), collapse=", ")
 		rs <- dbGetQuery(con,paste("select ", fields, " from Rechtsinformationssystem where SP_Nr>=",start," and SP_Nr<=",stop,";"))
 		
+
+		
 		j <- 1
 		len2 <- length(rs[,1])
 
