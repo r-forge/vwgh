@@ -1,0 +1,68 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{a4wide}
+\usepacke{utf8}
+\setlength{\parskip}{0.5ex plus0.1ex minus0.1ex}
+\setlength{\parindent}{0em}
+
+\usepackage[round,longnamesfirst]{natbib}
+\usepackage{hyperref}
+
+%%% for tabulars
+\usepackage{rotating}
+\usepackage{multirow}
+
+\newcommand{\strong}[1]{{\normalfont\fontseries{b}\selectfont #1}}
+\newcommand{\class}[1]{\mbox{\textsf{#1}}}
+\newcommand{\func}[1]{\mbox{\texttt{#1()}}}
+\newcommand{\code}[1]{\mbox{\texttt{#1}}}
+\newcommand{\pkg}[1]{\strong{#1}}
+\newcommand{\samp}[1]{`\mbox{\texttt{#1}}'}
+\newcommand{\proglang}[1]{\textsf{#1}}
+\newcommand{\set}[1]{\mathcal{#1}}
+
+\usepackage{Sweave}
+%% \VignetteIndexEntry{VwGHat Mining Capabilities}
+
+\begin{document}
+
+\title{VwGHat mining capabilities - Implementierung der Funktionen}
+\author{Martin Kober and Georg Zajko}
+\maketitle
+\sloppy
+This document gives some more detailed information on the mining capabilities of the VwGHat package. Since those are highly related to the specifics of the data, this the rest of this document will be in German, as are the court rulings.
+
+\section{Einleitung}
+Aus den Rohdaten können folgende Information extrahiert werden:
+
+\begin{itemize}
+  \item  Ergebnis
+  \item  Verfahrensdauer
+  \item  Verwendete Normen
+  \item  Senatsgröße
+  \item  Senatsnummer
+\end{itemize}
+
+\section{Ergebnis}
+
+Das Ergebnis des Verfahrens wird aus dem Textfeld Spruch ermittelt. Mittels Keywordsuche werden neun verschiedene Ergebnisse unterschieden. Die Einteilung richtet sich nach Nagel und Mamut (2006).
+
+Es werden die 6 Grundkategorien Zurückweisung, Abweisung, Aufhebung, Einstellung, Beschluss und Vorabentscheidung sowie die Mischformen teilweise Abweisung-Zurückweisung, teilweise Einstellung-Abweisung und teilweise Aufhebung unterschieden.
+
+\section{Verfahrensdauer}
+Als Verfahrensende wird das Entscheidungsdatum herangezogen, der Verfahrensbeginn wird indirekt errechnet: Zuerst wird das Datum der Entscheidung der Rechtsmittelbehörde ermittelt, und zu diesem dann 6 Wochen addiert (die First für Anrufungen VwGH).
+
+Das Datum der Entscheidung der Rechtsmittelbehöre ist normalerweise im Betreff des Erkenntnisses angeführt. Da dies in der Regel das einzige Datum im betreff ist, wird dieses extrahiert. Wenn mehrere Daten vorhanden sind (d.h. wenn gegen mehrere Bescheide gleichzeitig berufen wird), dann wird einheitlich das späteste Datum verwendet. 
+
+\section{Verwendete Normen}
+
+Die verwendeten Normen werden aus dem Feld Norm extrahiert, nach Semikola getrennt und einzeln (eine Norm pro Datensatz) in die DB geschrieben.
+
+\section{Senatsgröße}
+Die Senatsgröße wird aus dem Feld Betreff extrahiert. In diesem Feld sind alle Beteiligten Richter angeführt. Gültige Senatsgrößen sind 3, 5 und 7 Richter.
+
+\section{Senatsnummer}
+Die Senatsnummer wird aus der Geschäftszahl extrahiert. 
+
+
+\end{document}

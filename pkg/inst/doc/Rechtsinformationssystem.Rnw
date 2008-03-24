@@ -21,7 +21,7 @@
 \newcommand{\set}[1]{\mathcal{#1}}
 
 \usepackage{Sweave}
-%% \VignetteIndexEntry{Rechtsinformationssystem Vignette}
+%% \VignetteIndexEntry{VwGHat Vignette}
 
 <<echo=FALSE>>=
 options(prompt="R> ")
