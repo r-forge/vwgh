@@ -29,7 +29,7 @@ setup_foreign_table(con, table_name, fields_out, field_types="TEXT", include_for
 
 \references{ The Website of the Austrian Law \url{http://www.ris.bka.gv.at/} }
 
-\author{ Martin Kober <mx.2000@gmail.com>, Georg Zweitler <georgz@inode.at>, Georg M. Zajko <georg\_zajko@gmx.at> }
+\author{ Martin Kober <martin.kober@wu-wien.ac.at>, Georg M. Zajko <georg.zajko@wu-wien.ac.at> }
 
 \keyword{misc}
 

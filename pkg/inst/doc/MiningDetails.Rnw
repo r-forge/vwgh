@@ -1,7 +1,8 @@
 \documentclass[10pt,a4paper]{article}
 
 \usepackage{a4wide}
-\usepacke{utf8}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
 \setlength{\parskip}{0.5ex plus0.1ex minus0.1ex}
 \setlength{\parindent}{0em}
 
@@ -22,11 +23,11 @@
 \newcommand{\set}[1]{\mathcal{#1}}
 
 \usepackage{Sweave}
-%% \VignetteIndexEntry{VwGHat Mining Capabilities}
+%% \VignetteIndexEntry{VwGHat Mining Functions (German)}
 
 \begin{document}
 
-\title{VwGHat mining capabilities - Implementierung der Funktionen}
+\title{VwGHat implementation of mining functions - Implementierung der Funktionen}
 \author{Martin Kober and Georg Zajko}
 \maketitle
 \sloppy
@@ -50,9 +51,9 @@ Das Ergebnis des Verfahrens wird aus dem Textfeld Spruch ermittelt. Mittels Keyw
 Es werden die 6 Grundkategorien Zurückweisung, Abweisung, Aufhebung, Einstellung, Beschluss und Vorabentscheidung sowie die Mischformen teilweise Abweisung-Zurückweisung, teilweise Einstellung-Abweisung und teilweise Aufhebung unterschieden.
 
 \section{Verfahrensdauer}
-Als Verfahrensende wird das Entscheidungsdatum herangezogen, der Verfahrensbeginn wird indirekt errechnet: Zuerst wird das Datum der Entscheidung der Rechtsmittelbehörde ermittelt, und zu diesem dann 6 Wochen addiert (die First für Anrufungen VwGH).
+Als Verfahrensende wird das Entscheidungsdatum herangezogen, der Verfahrensbeginn wird indirekt errechnet: Zuerst wird das Datum der Entscheidung der Rechtsmittelbehörde ermittelt, und zu diesem dann 6 Wochen addiert (die Frist für Anrufungen VwGH).
 
-Das Datum der Entscheidung der Rechtsmittelbehöre ist normalerweise im Betreff des Erkenntnisses angeführt. Da dies in der Regel das einzige Datum im betreff ist, wird dieses extrahiert. Wenn mehrere Daten vorhanden sind (d.h. wenn gegen mehrere Bescheide gleichzeitig berufen wird), dann wird einheitlich das späteste Datum verwendet. 
+Das Datum der Entscheidung der Rechtsmittelbehöre ist normalerweise im Betreff des Erkenntnisses angeführt. Da dies in der Regel das einzige Datum im betreff ist, wird dieses extrahiert. Wenn mehrere Daten vorhanden sind (d.h. wenn gegen mehrere Bescheide gleichzeitig berufen wird), wird einheitlich das späteste Datum verwendet.
 
 \section{Verwendete Normen}
 
