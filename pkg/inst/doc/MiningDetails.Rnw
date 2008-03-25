@@ -26,12 +26,13 @@
 %% \VignetteIndexEntry{VwGHat Mining Functions (German)}
 
 \begin{document}
+\selectlanguage{\ngerman}
 
 \title{VwGHat implementation of mining functions - Implementierung der Funktionen}
 \author{Martin Kober and Georg Zajko}
 \maketitle
 \sloppy
-This document gives some more detailed information on the mining capabilities of the VwGHat package. Since those are highly related to the specifics of the data, this the rest of this document will be in German, as are the court rulings.
+This document gives more detailed information on the mining function of the VwGHat package. Since those are highly related to the specifics of the data court rulings data, the rest of this document will be in German.
 
 \section{Einleitung}
 Aus den Rohdaten können folgende Information extrahiert werden:
@@ -46,14 +47,29 @@ Aus den Rohdaten können folgende Information extrahiert werden:
 
 \section{Ergebnis}
 
-Das Ergebnis des Verfahrens wird aus dem Textfeld Spruch ermittelt. Mittels Keywordsuche werden neun verschiedene Ergebnisse unterschieden. Die Einteilung richtet sich nach Nagel und Mamut (2006).
+Das Ergebnis des Verfahrens wird aus dem Textfeld Spruch ermittelt. Mittels Keywordsuche werden neun verschiedene Ergebnisse unterschieden. Die Einteilung richtet sich nach Nagel und Mamut (``Rechtsprechung des VwGH in Abgabensachen 2000--2004'', 2006).
 
-Es werden die 6 Grundkategorien Zurückweisung, Abweisung, Aufhebung, Einstellung, Beschluss und Vorabentscheidung sowie die Mischformen teilweise Abweisung-Zurückweisung, teilweise Einstellung-Abweisung und teilweise Aufhebung unterschieden.
+Es werden die 6 Grundkategorien 
+\begin{itemize}
+  \item  Zurückweisung
+  \item  Abweisung
+  \item  Aufhebung
+  \item  Einstellung
+  \item  Beschluss
+  \item  Vorabentscheidung 
+\end{itemize}
+sowie die Mischformen 
+\begin{itemize}
+  \item  teilweise Abweisung-Zurückweisung
+  \item  teilweise Einstellung-Abweisung
+  \item  teilweise Aufhebung
+\end{itemize}
+unterschieden und numerisch codiert.
 
 \section{Verfahrensdauer}
-Als Verfahrensende wird das Entscheidungsdatum herangezogen, der Verfahrensbeginn wird indirekt errechnet: Zuerst wird das Datum der Entscheidung der Rechtsmittelbehörde ermittelt, und zu diesem dann 6 Wochen addiert (die Frist für Anrufungen VwGH).
+Als Verfahrensende wird das Entscheidungsdatum herangezogen, der Verfahrensbeginn wird indirekt errechnet: Zuerst wird das Datum der Entscheidung der Rechtsmittelbehörde ermittelt, und zu diesem dann 6 Wochen addiert (die Frist für Anrufungen des VwGH).
 
-Das Datum der Entscheidung der Rechtsmittelbehöre ist normalerweise im Betreff des Erkenntnisses angeführt. Da dies in der Regel das einzige Datum im betreff ist, wird dieses extrahiert. Wenn mehrere Daten vorhanden sind (d.h. wenn gegen mehrere Bescheide gleichzeitig berufen wird), wird einheitlich das späteste Datum verwendet.
+Das Datum der Entscheidung der Rechtsmittelbehöre ist normalerweise im Betreff des Erkenntnisses angeführt. Da dies im Normalfall das einzige Datum im Betreff ist, wird dieses extrahiert. Wenn mehrere Daten vorhanden sind (d.h. wenn gegen mehrere Bescheide gleichzeitig berufen wird), wird einheitlich das späteste Datum verwendet.
 
 \section{Verwendete Normen}
 
