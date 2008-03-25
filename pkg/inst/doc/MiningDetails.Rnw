@@ -33,13 +33,13 @@
 This document gives some more detailed information on the mining capabilities of the VwGHat package. Since those are highly related to the specifics of the data, this the rest of this document will be in German, as are the court rulings.
 
 \section{Einleitung}
-Aus den Rohdaten können folgende Information extrahiert werden:
+Aus den Rohdaten kÃ¶nnen folgende Information extrahiert werden:
 
 \begin{itemize}
   \item  Ergebnis
   \item  Verfahrensdauer
   \item  Verwendete Normen
-  \item  Senatsgröße
+  \item  SenatsgrÃ¶ÃŸe
   \item  Senatsnummer
 \end{itemize}
 
@@ -47,22 +47,22 @@ Aus den Rohdaten können folgende Information extrahiert werden:
 
 Das Ergebnis des Verfahrens wird aus dem Textfeld Spruch ermittelt. Mittels Keywordsuche werden neun verschiedene Ergebnisse unterschieden. Die Einteilung richtet sich nach Nagel und Mamut (2006).
 
-Es werden die 6 Grundkategorien Zurückweisung, Abweisung, Aufhebung, Einstellung, Beschluss und Vorabentscheidung sowie die Mischformen teilweise Abweisung-Zurückweisung, teilweise Einstellung-Abweisung und teilweise Aufhebung unterschieden.
+Es werden die 6 Grundkategorien ZurÃ¼ckweisung, Abweisung, Aufhebung, Einstellung, Beschluss und Vorabentscheidung sowie die Mischformen teilweise Abweisung-ZurÃ¼ckweisung, teilweise Einstellung-Abweisung und teilweise Aufhebung unterschieden.
 
 \section{Verfahrensdauer}
-Als Verfahrensende wird das Entscheidungsdatum herangezogen, der Verfahrensbeginn wird indirekt errechnet: Zuerst wird das Datum der Entscheidung der Rechtsmittelbehörde ermittelt, und zu diesem dann 6 Wochen addiert (die First für Anrufungen VwGH).
+Als Verfahrensende wird das Entscheidungsdatum herangezogen, der Verfahrensbeginn wird indirekt errechnet: Zuerst wird das Datum der Entscheidung der RechtsmittelbehÃ¶rde ermittelt, und zu diesem dann 6 Wochen addiert (die First fÃ¼r Anrufungen VwGH).
 
-Das Datum der Entscheidung der Rechtsmittelbehöre ist normalerweise im Betreff des Erkenntnisses angeführt. Da dies in der Regel das einzige Datum im betreff ist, wird dieses extrahiert. Wenn mehrere Daten vorhanden sind (d.h. wenn gegen mehrere Bescheide gleichzeitig berufen wird), dann wird einheitlich das späteste Datum verwendet. 
+Das Datum der Entscheidung der RechtsmittelbehÃ¶re ist normalerweise im Betreff des Erkenntnisses angefÃ¼hrt. Da dies in der Regel das einzige Datum im betreff ist, wird dieses extrahiert. Wenn mehrere Daten vorhanden sind (d.h. wenn gegen mehrere Bescheide gleichzeitig berufen wird), dann wird einheitlich das spÃ¤teste Datum verwendet. 
 
 \section{Verwendete Normen}
 
 Die verwendeten Normen werden aus dem Feld Norm extrahiert, nach Semikola getrennt und einzeln (eine Norm pro Datensatz) in die DB geschrieben.
 
-\section{Senatsgröße}
-Die Senatsgröße wird aus dem Feld Betreff extrahiert. In diesem Feld sind alle Beteiligten Richter angeführt. Gültige Senatsgrößen sind 3, 5 und 7 Richter.
+\section{SenatsgrÃ¶ÃŸe}
+Die SenatsgrÃ¶ÃŸe wird aus dem Feld Betreff extrahiert. In diesem Feld sind alle Beteiligten Richter angefÃ¼hrt. GÃ¼ltige SenatsgrÃ¶ÃŸen sind 3, 5 und 7 Richter.
 
 \section{Senatsnummer}
-Die Senatsnummer wird aus der Geschäftszahl extrahiert. 
+Die Senatsnummer wird aus der GeschÃ¤ftszahl extrahiert. 
 
 
 \end{document}
