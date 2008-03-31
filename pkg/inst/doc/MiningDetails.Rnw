@@ -66,17 +66,33 @@ sowie die Mischformen
 \end{itemize}
 unterschieden und numerisch codiert.
 
-\section{Verfahrensdauer}
-Als Verfahrensende wird das Entscheidungsdatum herangezogen, der Verfahrensbeginn wird indirekt errechnet: Zuerst wird das Datum der Entscheidung der Rechtsmittelbehörde ermittelt, und zu diesem dann 6 Wochen addiert (die Frist für Anrufungen des VwGH).
+\section{Verfahrensdauer} \label{duration}
+
+Als Verfahrensende wird das Entscheidungsdatum herangezogen, der Verfahrensbeginn wird indirekt errechnet: Zuerst wird das Datum der Entscheidung der Rechtsmittelbehörde ermittelt, und zu diesem dann sechs Wochen addiert (die Frist für Anrufungen des VwGH).
 
 Das Datum der Entscheidung der Rechtsmittelbehöre ist normalerweise im Betreff des Erkenntnisses angeführt. Da dies im Normalfall das einzige Datum im Betreff ist, wird dieses extrahiert. Wenn mehrere Daten vorhanden sind (d.h. wenn gegen mehrere Bescheide gleichzeitig berufen wird), wird einheitlich das späteste Datum verwendet.
+
+Ein Beispiel eines typischen Betreff eines Erkenntnisses (Geschäftszahl 93/18/0429):
+
+\begin{quote}
+Der Verwaltungsgerichtshof hat durch den Vorsitzenden
+Vizepräsident Dr. W. Pesendorfer und die Hofräte Dr. Zeizinger,
+Dr. Sauberer, Dr. Graf und Dr. Sulyok als Richter, im Beisein
+der Schriftführerin Mag. Runge, über die Beschwerde des N,
+vertreten durch Dr. H, Rechtsanwalt in L, gegen den Bescheid
+des Unabhängigen Verwaltungssenates des Landes Oberösterreich
+vom \emph{30. September 1992}, Zl. VwSen-400060/14/Gf/Hm, betreffend
+Festnahme und Anhaltung in Schubhaft, zu Recht erkannt:
+\end{quote}
+
+In diesem Beispiel wird als Verfahrensbeginn der 11.~11.~1992 errechnet (30.~9.~1992 + 6 Wochen).
 
 \section{Verwendete Normen}
 
 Die verwendeten Normen werden aus dem Feld Norm extrahiert, nach Semikola getrennt und einzeln (eine Norm pro Datensatz) in die DB geschrieben.
 
 \section{Senatsgröße}
-Die Senatsgröße wird aus dem Feld Betreff extrahiert. In diesem Feld sind alle Beteiligten Richter angeführt. Gültige Senatsgrößen sind 3, 5 und 7 Richter.
+Die Senatsgröße (Anzahl der Richter) wird aus dem Feld Betreff extrahiert. In diesem Feld sind alle beteiligten Richter angeführt (siehe Abschnitt~\ref{duration}). Gültige Senatsgrößen sind 3, 5 und 7 Richter.
 
 \section{Senatsnummer}
 Die Senatsnummer wird aus der Geschäftszahl extrahiert. 
