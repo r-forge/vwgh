@@ -67,7 +67,7 @@ sowie die Mischformen
 unterschieden und numerisch codiert.
 
 Zuerst wird der Spruch aus der Datenbank geholt und nach Mehrbegehren oder Ersatzbegehren durchsucht, falls diese Begriffe enthalten sind, wird der Spruch dort abgeschnitten, da diese Begriffe immer nur am Ende vorkommen.
-Auf Basis der Daten aus den Vergleichdatensätzen von Nagl/Mamut werden nun bestimmte ignore_pattern erstellt für Beschluss und Wiedereinsetzung. Diese Pattern waren notwendig, da das Programm ansonsten die Daten falsch zugeordnet hat.
+Auf Basis der Daten aus den Vergleichdatensätzen von Nagl/Mamut werden nun bestimmte ignore-pattern erstellt für Beschluss und Wiedereinsetzung. Diese Pattern waren notwendig, da das Programm ansonsten die Daten falsch zugeordnet hat.
 
 In weiterer Folge werden die Spr\"uche nach den Schlagw\"orten f\"ur die 6 Grundkategorien durchsucht. Aufgrund der vielen Rechtschreibfehler innerhalb der Sprueche, wiederholen sich mache Patterns in unterschiedlicher Art. Das Programm agrep w\"are f\"ur eine solche Funktion geeignet, jedoch unterst\"utzt es nicht UTF-8.
 
@@ -80,9 +80,9 @@ In weiterer Folge werden die Spr\"uche nach den Schlagw\"orten f\"ur die 6 Grund
   \item  Vorabentscheidung:	vorabentscheidung|gerichtshof der europ.ischen gemeinschaften
 \end{itemize}
 
-Falls nur ein Pattern einen Treffen ergeben hat, wird die entsprechende Nummer als Result eingetragen und die klassifizierung ist zu Ende.
+Falls nur ein Pattern einen Treffen ergeben hat, wird die entsprechende Nummer als Result eingetragen und die Klassifizierung ist zu Ende.
 
-Andernfalls werden die correct_patterns erstellt, welche eine genauer Zuteilung ermöglichen:
+Andernfalls werden die correct-patterns erstellt, welche eine genauer Zuteilung ermöglichen:
 
 \begin{itemize}
   \item  Abweisung 		-> 	tw. Abweisung-Zurückweisung: 	.brigen
@@ -90,7 +90,7 @@ Andernfalls werden die correct_patterns erstellt, welche eine genauer Zuteilung 
   \item  Vorabentscheidung	->	Beschluss:			vorabentscheidungsverfahren|angerufen worden|rechtssachen
 \end{itemize}
 
-Falls die correct_pattern matchen, werden die Kategorien entsprechend der oberen Tabelle adaptiert und als Result eingetragen. Im Falle das kein einziger Pattern matched, wird als Result -10 eingetragen. Dies ist der Fall bei unvollständigen Sprüchen.
+Falls die correct-pattern matchen, werden die Kategorien entsprechend der oberen Tabelle adaptiert und als Result eingetragen. Im Falle das kein einziger Pattern matched, wird als Result -10 eingetragen. Dies ist der Fall bei unvollständigen Sprüchen.
 
 Falls mehrere Pattern zutreffen, wird versucht diese in die drei letzten Kategorien einzuordnen, sofern dies erfolgreich war, wird das Result eintragen. Andernfalls kommt es zur finalen Manipulation, welche verschiedene Kategorieoptionen miteinander in die 9 Kategorien schreibt. Die Auswahl erfolgte auf Basis von Nagl/Mamut.
 
