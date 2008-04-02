@@ -44,10 +44,11 @@ Aus den Rohdaten können folgende Information extrahiert werden:
   \item  Senatsgröße
   \item  Senatsnummer
 \end{itemize}
+Als Referenz wurde ein handkodierter Datensatz mit etwa 3000 Erkenntnissen aus einem Forschungsprojekt von Nagel und Mamut (``Rechtsprechung des VwGH in Abgabensachen 2000--2004'', 2006) verwendet.
 
 \section{Ergebnis}
 
-Das Ergebnis des Verfahrens wird aus dem Textfeld Spruch ermittelt. Mittels Keywordsuche werden neun verschiedene Ergebnisse unterschieden. Die Einteilung richtet sich nach Nagel und Mamut (``Rechtsprechung des VwGH in Abgabensachen 2000--2004'', 2006).
+Das Ergebnis des Verfahrens wird aus dem Spruch ermittelt. Mittels Keywordsuche werden neun verschiedene Ergebnisse unterschieden. Die Einteilung richtet sich nach Nagel und Mamut.
 
 Es werden die 6 Grundkategorien 
 \begin{itemize}
@@ -65,42 +66,38 @@ sowie die Mischformen
   \item  teilweise Aufhebung
 \end{itemize}
 unterschieden und numerisch codiert.
-\vspace{1 cm}
-Zuerst wird der Spruch aus der Datenbank geholt und nach Mehrbegehren oder Ersatzbegehren durchsucht, falls diese Begriffe enthalten sind, wird der Spruch dort abgeschnitten, da diese Begriffe immer nur am Ende vorkommen.
-Auf Basis der Daten aus den Vergleichdatensätzen von Nagl/Mamut werden nun bestimmte ignore-pattern erstellt für 
+
+Zuerst wird der Spruch aus der Datenbank geholt und nach Mehrbegehren oder Ersatzbegehren durchsucht; falls diese Begriffe enthalten sind, wird der nur Teil des Spruchs bis zu diesem Begriff weiter analysiert, da nach diesen Begriffen in der Regel Erklärungen über weitere Ergebnisse folgen, die für die Kategorisierung nicht relevant sind.
+
+
+In weiterer Folge werden die Spr\"uche nach den Schlagworten f\"ur die 6 Grundkategorien durchsucht. Aufgrund der vielen Rechtschreibfehler innerhalb der Spr\"uche, wiederholen sich manche Patterns in unterschiedlicher Art (die Funktion \code{agrep} w\"are prinzipiell für annäherndes Pattern-Matching geeignet, unterst\"utzt jedoch nicht das Encoding-Format UTF-8).
+
+
 \begin{itemize}
-	\item Beschluss und 
-	\item Wiedereinsetzung.
-\end{itemize} 
-Diese Pattern waren notwendig, da das Programm ansonsten die Daten falsch zugeordnet hat.
-\vspace{1cm}
-In weiterer Folge werden die Spr\"uche nach den Schlagw\"orten f\"ur die 6 Grundkategorien durchsucht. Aufgrund der vielen Rechtschreibfehler innerhalb der Sprueche, wiederholen sich mache Patterns in unterschiedlicher Art. Das Programm agrep w\"are f\"ur eine solche Funktion geeignet, jedoch unterst\"utzt es nicht das Encoding-Format UTF-8.
-\vspace{0.3cm}
-\begin{itemize}
-  \item  Zurückweisung: 	zur.ckgewiesen
-  \item  Abweisung:		abgewiesen|abewiesen|abgegewiesen|abgelehnt
-  \item  Aufhebung:		aufgehoben|erteilt|folge gegeben|rechtswidrig|berichtigt|geb.hrt dem Beschwerdef.hrer|erlassen|angeordnet|zur.ckverwiesen
-  \item  Einstellung:		eingestellt
-  \item  Beschluss:		beschlu.|stattgegeben|bewilligt
-  \item  Vorabentscheidung:	vorabentscheidung|gerichtshof der europ.ischen gemeinschaften
+  \item  Zurückweisung: 	Pattern: \code{zur.ckgewiesen}
+  \item  Abweisung:		\code{abgewiesen|abewiesen|abgegewiesen|abgelehnt}
+  \item  Aufhebung:		\code{aufgehoben|erteilt|folge gegeben|rechtswidrig|berichtigt|}
+            \code{geb.hrt dem Beschwerdef.hrer|erlassen|angeordnet|zur.ckverwiesen}
+  \item  Einstellung:		\code{eingestellt}
+  \item  Beschluss:		\code{beschlu.|stattgegeben|bewilligt}
+  \item  Vorabentscheidung:	\code{vorabentscheidung|gerichtshof der europ.ischen gemeinschaften}
 \end{itemize}
-\vspace{1cm}
-Falls nur ein Pattern einen Treffen ergeben hat, wird die entsprechende Nummer als Result eingetragen und die Klassifizierung ist zu Ende.
-\vspace{1cm}
-Andernfalls werden die correct-patterns erstellt, welche eine genauer Zuteilung ermöglichen:
-\vspace{1cm}
+
+
+Falls nur ein Pattern einen Treffer ergeben hat, werden noch einige Korrektur-Patterns angewandt um Sonderfälle in die richtige Klasse einzuordnen (in Übereinstimmung mit dem Referenzdatensatz), danach ist die Klassifizierung abgeschlossen und das Ergebnis wird in die Datenbank geschrieben.
+
 \begin{itemize}
-  \item  Abweisung 		-> 	tw. Abweisung-Zurückweisung: 	.brigen
-  \item  Abweisung/Aufhebung 	->	Beschluss:			antr.g
-  \item  Vorabentscheidung	->	Beschluss:			vorabentscheidungsverfahren|angerufen worden|rechtssachen
+  \item  Abweisung 		auf 	tw. Abweisung-Zurückweisung: 	(Pattern: \code{.brigen})
+  \item  Abweisung/Aufhebung 	auf	Beschluss:			(Pattern: \code{antr.g})
+  \item  Vorabentscheidung	auf	Beschluss:	(Pattern: \code{vorabentscheidungsverfahren|angerufen worden|} \code{rechtssachen})
 \end{itemize}
-\vspace{1cm}
-Falls die correct-pattern matchen, werden die Kategorien entsprechend der oberen Tabelle adaptiert und als Result eingetragen. Im Falle das kein einziger Pattern matched, wird als Result -10 eingetragen. Dies ist der Fall bei unvollständigen Sprüchen.
-\vspace{1cm}
-Falls mehrere Pattern zutreffen, wird versucht diese in die drei letzten Kategorien einzuordnen, sofern dies erfolgreich war, wird das Result eintragen. Andernfalls kommt es zur finalen Manipulation, welche verschiedene Kategorieoptionen miteinander in die 9 Kategorien schreibt. Die Auswahl erfolgte auf Basis von Nagl/Mamut.
-\vspace{1cm}
+
+Falls das kein einziger Pattern einen Treffer erzielt, wird das Ergebnis als fehlend eingetragen. Dies ist der Fall bei unvollständigen Sprüchen.
+
+Falls mehrere Pattern zutreffen, wird versucht diese in die drei letzten Kategorien einzuordnen; sofern dies erfolgreich war, wird das Resultat eingetragen. Andernfalls werden die Zuordnungskonfikte folgendermaßen aufgelöst:
+
 \begin{itemize}
-	\item Zurückweisung und Einstellung			-> 	Zurückweisung
+	\item Zurückweisung und Einstellung			->	Zurückweisung
 	\item Zurückweisung und Beschluss			->	Zurückweisung
 	\item Zurückweisung, Abweisung und Beschluss       	->	Zurückweisung
 	\item Abweisung und Beschluss				->	Abweisung
@@ -108,18 +105,18 @@ Falls mehrere Pattern zutreffen, wird versucht diese in die drei letzten Kategor
 	\item Einstellung und Beschluss				->	Einstellung
 	\item Beschluss und Vorabentscheidung			->	Beschluss
 \end{itemize}
-\vspace{1cm}
-Jetzt sind nahezu alle Ergebnisse klassifiziert. Bei wenigen Ergebnissen kommt es noch immer zu keiner eindeutigen Lösung. Zur besseren Überprüfung werden diese Ergebnissedann als schematische Zahl mit den zutreffenden Kategorien als Ergebnis zurückgegeben.
-\vspace{1cm}
+
+Jetzt sind nahezu alle Ergebnisse klassifiziert. Bei wenigen Ergebnissen kommt es noch immer zu keiner eindeutigen Lösung. Zur besseren Überprüfung werden diese Ergebnisse dann als schematische Zahl mit den zutreffenden Kategorien als Ergebnis zurückgegeben.
+
 z.B 20406 -> Pattern: Abweisung,Einstellung und Vorabentscheidung haben gematched.
 
 \section{Verfahrensdauer} \label{duration}
 
-Als Verfahrensende wird das Entscheidungsdatum herangezogen, der Verfahrensbeginn wird indirekt errechnet: Zuerst wird das Datum der Entscheidung der Rechtsmittelbehörde ermittelt, und zu diesem dann sechs Wochen addiert (die Frist für Anrufungen des VwGH).
+Als Verfahrensende wird das Entscheidungsdatum (im Erkenntnis in einem eigenen Feld vermerkt) herangezogen, der Verfahrensbeginn muss indirekt errechnet werden: Zuerst wird das Datum der Entscheidung der Rechtsmittelbehörde ermittelt, und zu diesem dann sechs Wochen addiert (Frist für Anrufungen des VwGH).
 
 Das Datum der Entscheidung der Rechtsmittelbehöre ist normalerweise im Betreff des Erkenntnisses angeführt. Da dies im Normalfall das einzige Datum im Betreff ist, wird dieses extrahiert. Wenn mehrere Daten vorhanden sind (d.h. wenn gegen mehrere Bescheide gleichzeitig berufen wird), wird einheitlich das späteste Datum verwendet.
 
-Ein Beispiel eines typischen Betreff eines Erkenntnisses (Geschäftszahl 93/18/0429):
+Ein Beispiel eines typischen Betreffs eines Erkenntnisses (Geschäftszahl 93/18/0429):
 
 \begin{quote}
 Der Verwaltungsgerichtshof hat durch den Vorsitzenden
@@ -128,7 +125,7 @@ Dr. Sauberer, Dr. Graf und Dr. Sulyok als Richter, im Beisein
 der Schriftführerin Mag. Runge, über die Beschwerde des N,
 vertreten durch Dr. H, Rechtsanwalt in L, gegen den Bescheid
 des Unabhängigen Verwaltungssenates des Landes Oberösterreich
-vom \emph{30. September 1992}, Zl. VwSen-400060/14/Gf/Hm, betreffend
+vom {\bf 30. September 1992}, Zl. VwSen-400060/14/Gf/Hm, betreffend
 Festnahme und Anhaltung in Schubhaft, zu Recht erkannt:
 \end{quote}
 
@@ -136,13 +133,13 @@ In diesem Beispiel wird als Verfahrensbeginn der 11.~11.~1992 errechnet (30.~9.~
 
 \section{Verwendete Normen}
 
-Die verwendeten Normen werden aus dem Feld Norm extrahiert, nach Semikola getrennt und einzeln (eine Norm pro Datensatz) in die DB geschrieben.
+Die verwendeten Normen werden direkt aus dem Feld Norm extrahiert. Zur einfacheren Weiterverarbeitung wird für jede verwendete Norm in eine einzelne Zeile in der Datenbank geschrieben.
 
 \section{Senatsgröße}
-Die Senatsgröße (Anzahl der Richter) wird aus dem Feld Betreff extrahiert. In diesem Feld sind alle beteiligten Richter angeführt (siehe Abschnitt~\ref{duration}). Gültige Senatsgrößen sind 3, 5 und 7 Richter.
+Die Senatsgröße (Anzahl der Richter) wird aus dem Feld Betreff extrahiert. In diesem Feld sind alle beteiligten Richter angeführt. Gültige Senatsgrößen sind 3, 5 und 7 Richter (siehe das Beispiel in Abschnitt~\ref{duration}. Hier war ein Senat mit fünf Richtern mit dem Fall betraut).
 
 \section{Senatsnummer}
-Die Senatsnummer wird aus der Geschäftszahl extrahiert. 
+Die Senatsnummer wird aus der Geschäftszahl extrahiert, z.B. wurde der Fall mit der Geschäftszahl \emph{93/{\bf 18}/0429} von Senat 18 behandelt.
 
 
 \end{document}
