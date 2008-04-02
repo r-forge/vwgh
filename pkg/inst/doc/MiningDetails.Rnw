@@ -44,7 +44,7 @@ Aus den Rohdaten können folgende Information extrahiert werden:
   \item  Senatsgröße
   \item  Senatsnummer
 \end{itemize}
-Als Referenz wurde ein handkodierter Datensatz mit etwa 3000 Erkenntnissen aus einem Forschungsprojekt von Nagel und Mamut (``Rechtsprechung des VwGH in Abgabensachen 2000--2004'', 2006) verwendet.
+Als Referenz wurde ein handkodierter Datensatz mit etwa 3000 Erkenntnissen aus einem Forschungsprojekt von Nagel und Mamut ("`Rechtsprechung des VwGH in Abgabensachen 2000--2004"', 2006) verwendet.
 
 \section{Ergebnis}
 
@@ -94,21 +94,30 @@ Falls nur ein Pattern einen Treffer ergeben hat, werden noch einige Korrektur-Pa
 
 Falls das kein einziger Pattern einen Treffer erzielt, wird das Ergebnis als fehlend eingetragen. Dies ist der Fall bei unvollständigen Sprüchen.
 
-Falls mehrere Pattern zutreffen, wird versucht diese in die drei letzten Kategorien einzuordnen; sofern dies erfolgreich war, wird das Resultat eingetragen. Andernfalls werden die Zuordnungskonfikte folgendermaßen aufgelöst:
+Falls mehrere Patterns zutreffen, wird versucht diese in die drei letzten Kategorien einzuordnen; sofern dies erfolgreich war, wird das Resultat eingetragen. Andernfalls werden die Zuordnungskonfikte folgendermaßen aufgelöst:
 
 \begin{itemize}
-	\item Zurückweisung und Einstellung			->	Zurückweisung
-	\item Zurückweisung und Beschluss			->	Zurückweisung
-	\item Zurückweisung, Abweisung und Beschluss       	->	Zurückweisung
-	\item Abweisung und Beschluss				->	Abweisung
-	\item Abweisung, Einstellung und Beschluss       	->	Beschluss
-	\item Einstellung und Beschluss				->	Einstellung
-	\item Beschluss und Vorabentscheidung			->	Beschluss
+	\item Zurückweisung und Einstellung			→	Zurückweisung
+	\item Zurückweisung und Beschluss			→	Zurückweisung
+	\item Zurückweisung, Abweisung und Beschluss       	→	Zurückweisung
+	\item Abweisung und Beschluss				→	Abweisung
+	\item Abweisung, Einstellung und Beschluss       	→	Beschluss
+	\item Einstellung und Beschluss				→	Einstellung
+	\item Beschluss und Vorabentscheidung			→	Beschluss
 \end{itemize}
 
 Jetzt sind nahezu alle Ergebnisse klassifiziert. Bei wenigen Ergebnissen kommt es noch immer zu keiner eindeutigen Lösung. Zur besseren Überprüfung werden diese Ergebnisse dann als schematische Zahl mit den zutreffenden Kategorien als Ergebnis zurückgegeben.
 
-z.B 20406 -> Pattern: Abweisung,Einstellung und Vorabentscheidung haben gematched.
+Ein typischer Spruch des VwGH ist zum Beispiel folgender (Geschäftszahl 93/18/0429):
+
+\begin{quote}
+Die Beschwerde wird als unbegründet {\bf abgewiesen}.
+    Der Beschwerdeführer hat dem Bund Aufwendungen in der Höhe
+von S 4.565,-- binnen zwei Wochen bei sonstiger Exekution zu
+ersetzen.
+\end{quote}
+
+Hier wird nur der Pattern Abweisung erkannt und das Ergebnis dementsprechend klassifiziert.
 
 \section{Verfahrensdauer} \label{duration}
 
