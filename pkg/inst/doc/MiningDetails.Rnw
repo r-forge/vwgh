@@ -48,7 +48,7 @@ Als Referenz wurde ein handkodierter Datensatz mit etwa 3000 Erkenntnissen aus e
 
 \section{Ergebnis}
 
-Das Ergebnis des Verfahrens wird aus dem Spruch ermittelt. Mittels Keywordsuche werden neun verschiedene Ergebnisse unterschieden. Die Einteilung richtet sich nach Nagel und Mamut.
+Das Ergebnis des Verfahrens wird aus dem Spruch ermittelt. Mittels Schlagwortsuche werden neun verschiedene Ergebnisse unterschieden. Die Einteilung richtet sich nach Nagel und Mamut.
 
 Es werden die 6 Grundkategorien 
 \begin{itemize}
@@ -145,7 +145,7 @@ In diesem Beispiel wird als Verfahrensbeginn der 11.~11.~1992 errechnet (30.~9.~
 Die verwendeten Normen werden direkt aus dem Feld Norm extrahiert. Zur einfacheren Weiterverarbeitung wird für jede verwendete Norm in eine einzelne Zeile in der Datenbank geschrieben.
 
 \section{Senatsgröße}
-Die Senatsgröße (Anzahl der Richter) wird aus dem Feld Betreff extrahiert. In diesem Feld sind alle beteiligten Richter angeführt. Gültige Senatsgrößen sind 3, 5 und 7 Richter (siehe das Beispiel in Abschnitt~\ref{duration}. Hier war ein Senat mit fünf Richtern mit dem Fall betraut).
+Die Senatsgröße (Anzahl der Richter) wird aus dem Feld Betreff extrahiert. In diesem Feld sind alle beteiligten Richter angeführt. Hier wird zunächst der relevante Teil des Texts extrahiert (alles bis zur Phrase "`im Beisein des/der Schriftführer/-in"') und dann die Titel (Mag. bzw. Dr.) gezählt.  Gültige Senatsgrößen sind 3, 5 und 7 Richter (siehe das Beispiel in Abschnitt~\ref{duration}. Hier war ein Senat mit fünf Richtern mit dem Fall betraut).
 
 \section{Senatsnummer}
 Die Senatsnummer wird aus der Geschäftszahl extrahiert, z.B. wurde der Fall mit der Geschäftszahl \emph{93/{\bf 18}/0429} von Senat 18 behandelt.
