@@ -65,12 +65,17 @@ sowie die Mischformen
   \item  teilweise Aufhebung
 \end{itemize}
 unterschieden und numerisch codiert.
-
+\vspace{1 cm}
 Zuerst wird der Spruch aus der Datenbank geholt und nach Mehrbegehren oder Ersatzbegehren durchsucht, falls diese Begriffe enthalten sind, wird der Spruch dort abgeschnitten, da diese Begriffe immer nur am Ende vorkommen.
-Auf Basis der Daten aus den Vergleichdatensätzen von Nagl/Mamut werden nun bestimmte ignore-pattern erstellt für Beschluss und Wiedereinsetzung. Diese Pattern waren notwendig, da das Programm ansonsten die Daten falsch zugeordnet hat.
-
-In weiterer Folge werden die Spr\"uche nach den Schlagw\"orten f\"ur die 6 Grundkategorien durchsucht. Aufgrund der vielen Rechtschreibfehler innerhalb der Sprueche, wiederholen sich mache Patterns in unterschiedlicher Art. Das Programm agrep w\"are f\"ur eine solche Funktion geeignet, jedoch unterst\"utzt es nicht UTF-8.
-
+Auf Basis der Daten aus den Vergleichdatensätzen von Nagl/Mamut werden nun bestimmte ignore-pattern erstellt für 
+\begin{itemize}
+	\item Beschluss und 
+	\item Wiedereinsetzung.
+\end{itemize} 
+Diese Pattern waren notwendig, da das Programm ansonsten die Daten falsch zugeordnet hat.
+\vspace{1cm}
+In weiterer Folge werden die Spr\"uche nach den Schlagw\"orten f\"ur die 6 Grundkategorien durchsucht. Aufgrund der vielen Rechtschreibfehler innerhalb der Sprueche, wiederholen sich mache Patterns in unterschiedlicher Art. Das Programm agrep w\"are f\"ur eine solche Funktion geeignet, jedoch unterst\"utzt es nicht das Encoding-Format UTF-8.
+\vspace{0.3cm}
 \begin{itemize}
   \item  Zurückweisung: 	zur.ckgewiesen
   \item  Abweisung:		abgewiesen|abewiesen|abgegewiesen|abgelehnt
@@ -79,21 +84,21 @@ In weiterer Folge werden die Spr\"uche nach den Schlagw\"orten f\"ur die 6 Grund
   \item  Beschluss:		beschlu.|stattgegeben|bewilligt
   \item  Vorabentscheidung:	vorabentscheidung|gerichtshof der europ.ischen gemeinschaften
 \end{itemize}
-
+\vspace{1cm}
 Falls nur ein Pattern einen Treffen ergeben hat, wird die entsprechende Nummer als Result eingetragen und die Klassifizierung ist zu Ende.
-
+\vspace{1cm}
 Andernfalls werden die correct-patterns erstellt, welche eine genauer Zuteilung ermöglichen:
-
+\vspace{1cm}
 \begin{itemize}
   \item  Abweisung 		-> 	tw. Abweisung-Zurückweisung: 	.brigen
   \item  Abweisung/Aufhebung 	->	Beschluss:			antr.g
   \item  Vorabentscheidung	->	Beschluss:			vorabentscheidungsverfahren|angerufen worden|rechtssachen
 \end{itemize}
-
+\vspace{1cm}
 Falls die correct-pattern matchen, werden die Kategorien entsprechend der oberen Tabelle adaptiert und als Result eingetragen. Im Falle das kein einziger Pattern matched, wird als Result -10 eingetragen. Dies ist der Fall bei unvollständigen Sprüchen.
-
+\vspace{1cm}
 Falls mehrere Pattern zutreffen, wird versucht diese in die drei letzten Kategorien einzuordnen, sofern dies erfolgreich war, wird das Result eintragen. Andernfalls kommt es zur finalen Manipulation, welche verschiedene Kategorieoptionen miteinander in die 9 Kategorien schreibt. Die Auswahl erfolgte auf Basis von Nagl/Mamut.
-
+\vspace{1cm}
 \begin{itemize}
 	\item Zurückweisung und Einstellung			-> 	Zurückweisung
 	\item Zurückweisung und Beschluss			->	Zurückweisung
@@ -103,9 +108,9 @@ Falls mehrere Pattern zutreffen, wird versucht diese in die drei letzten Kategor
 	\item Einstellung und Beschluss				->	Einstellung
 	\item Beschluss und Vorabentscheidung			->	Beschluss
 \end{itemize}
-
+\vspace{1cm}
 Jetzt sind nahezu alle Ergebnisse klassifiziert. Bei wenigen Ergebnissen kommt es noch immer zu keiner eindeutigen Lösung. Zur besseren Überprüfung werden diese Ergebnissedann als schematische Zahl mit den zutreffenden Kategorien als Ergebnis zurückgegeben.
-
+\vspace{1cm}
 z.B 20406 -> Pattern: Abweisung,Einstellung und Vorabentscheidung haben gematched.
 
 \section{Verfahrensdauer} \label{duration}
